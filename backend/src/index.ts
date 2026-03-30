@@ -19,6 +19,10 @@ app.use('/api', filesRouter);
 
 app.get('/health', (_req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok', service: 'studio', timestamp: new Date().toISOString() });
+});
+
 const server = http.createServer(app);
 initWebSocketServer(server);
 
