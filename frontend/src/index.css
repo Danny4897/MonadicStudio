@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Monaco decoration styles */
+.gc002-warning {
+  background: rgba(249, 115, 22, 0.12);
+  border-bottom: 1px wavy #f97316;
+}
+
+.gc001-error {
+  background: rgba(239, 68, 68, 0.12);
+  border-bottom: 1px wavy #ef4444;
+}
+
+.gc003-info {
+  background: rgba(0, 255, 136, 0.06);
+  border-bottom: 1px dotted #00ff88;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* File tree active item */
+.file-active {
+  border-left: 2px solid #00ff88;
+  background: rgba(0, 255, 136, 0.08);
+}
+
+/* Forge output colors */
+.forge-error   { color: #ef4444; }
+.forge-warning { color: #f97316; }
+.forge-info    { color: #58a6ff; }
+.forge-neutral { color: #8b949e; }
