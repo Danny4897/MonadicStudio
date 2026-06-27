@@ -2,7 +2,7 @@
   "name": "monadic-studio",
   "displayName": "MonadicStudio",
   "description": "Visual ROP pipeline editor for MonadicSharp — drag .NET methods, generate Railway-Oriented C# code, deploy to your solution.",
-  "version": "0.1.7.1",
+  "version": "0.1.8",
   "publisher": "monadicleaf",
   "license": "MIT",
   "icon": "media/icon.png",
