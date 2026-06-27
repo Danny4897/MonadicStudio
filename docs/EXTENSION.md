@@ -81,5 +81,6 @@ Comando alternativo: `MonadicStudio: Open Pipeline Builder` (`Ctrl+Shift+P`).
 
 - **Webview vuota / messaggio build**: esegui `npm run build:extension`
 - **Engine offline**: serve **.NET 8 Runtime** (`dotnet --version`). Log in **Output → MonadicStudio**. Porta **5000** libera.
-- **Failed to fetch** nell'explorer: engine non avviato — aggiorna alla v0.1.5+ (include engine nel pacchetto)
+- **Failed to fetch** nell'explorer: engine non avviato — aggiorna alla v0.1.7+
+- **No view is registered / PIPELINE BUILDER in sidebar**: disinstalla versioni vecchie, reinstalla, Reload Window
 - **Demo data nell'explorer**: bootstrap fallito — usa **Refresh Solution Tree** o aggiungi `monadicstudio.json` (vedi `templates/monadicstudio.json`)

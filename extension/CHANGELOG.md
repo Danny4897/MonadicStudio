@@ -1,5 +1,9 @@
 # Changelog — MonadicStudio Extension
 
+## 0.1.7
+- Fix: niente sidebar — click icona apre tab editor e chiude sidebar
+- Status bar shortcut + messaggio se versione vecchia installata
+
 ## 0.1.6
 - Canvas aperto come **tab nell'editor** (non più sidebar webview)
 - Icona activity bar → apre direttamente l'editor

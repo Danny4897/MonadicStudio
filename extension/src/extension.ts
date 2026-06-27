@@ -3,10 +3,15 @@ import { BackendManager } from './backendManager'
 import { EditorPanelManager } from './editorPanel'
 import { log, getOutputChannel } from './log'
 
+const LAUNCHER_VIEW_ID = 'monadicstudio.launcher'
+
 let backend: BackendManager | undefined
 let editorPanel: EditorPanelManager | undefined
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  const version = context.extension.packageJSON.version as string
+  log(`MonadicStudio v${version} — attivazione`)
+
   backend = new BackendManager(context.extensionPath)
   context.subscriptions.push({ dispose: () => backend?.dispose() })
   context.subscriptions.push(getOutputChannel())
@@ -32,6 +37,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const openInEditor = async () => {
     await startEngine('open')
     await editorPanel!.open(vscode.ViewColumn.Active)
+    await vscode.commands.executeCommand('workbench.action.closeSidebar')
   }
 
   void startEngine('activate')
@@ -50,27 +56,18 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       await startEngine('refresh')
       await backend!.bootstrapWorkspace(root)
       void vscode.window.showInformationMessage('MonadicStudio: solution ricollegata.')
-      await editorPanel!.open()
+      await openInEditor()
     }),
   )
 
-  const launcherProvider: vscode.TreeDataProvider<vscode.TreeItem> = {
-    getTreeItem: () => new vscode.TreeItem(''),
-    getChildren: () => [],
-  }
+  registerLauncherView(context, () => void openInEditor())
 
-  const treeView = vscode.window.createTreeView('monadicstudio.launcher', {
-    treeDataProvider: launcherProvider,
-    showCollapseAll: false,
-  })
-
-  context.subscriptions.push(
-    treeView.onDidChangeVisibility((e) => {
-      if (e.visible) {
-        void openInEditor()
-      }
-    }),
-  )
+  const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50)
+  statusBar.text = '$(type-hierarchy) MonadicStudio'
+  statusBar.tooltip = 'Apri Pipeline Builder nell\'editor'
+  statusBar.command = 'monadicstudio.open'
+  statusBar.show()
+  context.subscriptions.push(statusBar)
 
   if (vscode.workspace.workspaceFolders?.length) {
     void startEngine('workspace')
@@ -80,6 +77,47 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     vscode.workspace.onDidChangeWorkspaceFolders(() => {
       if (vscode.workspace.workspaceFolders?.length) {
         void startEngine('workspace-change')
+      }
+    }),
+  )
+}
+
+function registerLauncherView(context: vscode.ExtensionContext, onVisible: () => void): void {
+  const contributes = context.extension.packageJSON.contributes as {
+    views?: Record<string, Array<{ id: string }>>
+  }
+  const views = contributes?.views?.['monadic-studio'] ?? []
+  const hasLauncher = views.some((v) => v.id === LAUNCHER_VIEW_ID)
+
+  if (!hasLauncher) {
+    log(
+      `View "${LAUNCHER_VIEW_ID}" assente nel manifest installato. Disinstalla versioni vecchie e reinstalla.`,
+    )
+    void vscode.window.showWarningMessage(
+      'MonadicStudio: estensione non aggiornata. Disinstalla e reinstalla la v0.1.7+.',
+      'Apri Extensions',
+    ).then((choice) => {
+      if (choice === 'Apri Extensions') {
+        void vscode.commands.executeCommand('workbench.view.extensions')
+      }
+    })
+    return
+  }
+
+  const provider: vscode.TreeDataProvider<vscode.TreeItem> = {
+    getTreeItem: () => new vscode.TreeItem(''),
+    getChildren: () => [],
+  }
+
+  const treeView = vscode.window.createTreeView(LAUNCHER_VIEW_ID, {
+    treeDataProvider: provider,
+    showCollapseAll: false,
+  })
+
+  context.subscriptions.push(
+    treeView.onDidChangeVisibility((e) => {
+      if (e.visible) {
+        onVisible()
       }
     }),
   )
