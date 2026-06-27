@@ -1,0 +1,6 @@
+@MonadicStudio.Api_HostAddress = http://localhost:5157
+
+GET {{MonadicStudio.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

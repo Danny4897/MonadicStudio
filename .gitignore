@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+frontend/dist/
+extension/dist/
+extension/media/webview/
+backend/bin/
+backend/obj/
+**/*.vsix
+
+# IDE
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local pipeline data (dev)
+backend/pipelines/*.json
+!backend/pipelines/.gitignore
+
+# Env / secrets
+.env
+.env.*
+*.pat
+
+# Cursor assets (generated)
+assets/

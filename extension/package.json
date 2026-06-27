@@ -1,0 +1,91 @@
+{
+  "name": "monadic-studio",
+  "displayName": "MonadicStudio",
+  "description": "Visual ROP pipeline editor for MonadicSharp — drag .NET methods, generate Railway-Oriented C# code, deploy to your solution.",
+  "version": "0.1.0",
+  "publisher": "monadicleaf",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Danny4897/MonadicStudio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Danny4897/MonadicStudio/issues"
+  },
+  "homepage": "https://github.com/Danny4897/MonadicStudio#readme",
+  "qna": "https://github.com/Danny4897/MonadicStudio/issues",
+  "galleryBanner": {
+    "color": "#09090b",
+    "theme": "dark"
+  },
+  "keywords": [
+    "monadicsharp",
+    "csharp",
+    "c#",
+    "rop",
+    "railway-oriented-programming",
+    "dotnet",
+    "pipeline",
+    "code-generation",
+    "roslyn",
+    "functional",
+    "result"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:monadicstudio.canvas"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "monadicstudio.open",
+        "title": "MonadicStudio: Open Pipeline Builder",
+        "icon": "$(type-hierarchy)"
+      },
+      {
+        "command": "monadicstudio.refresh",
+        "title": "MonadicStudio: Refresh Solution Tree"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "monadic-studio",
+          "title": "MonadicStudio",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "monadic-studio": [
+        {
+          "type": "webview",
+          "id": "monadicstudio.canvas",
+          "name": "Pipeline Builder"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "package": "vsce package --no-dependencies --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.0.0",
+    "ovsx": "^0.10.12",
+    "typescript": "^5.5.0"
+  }
+}

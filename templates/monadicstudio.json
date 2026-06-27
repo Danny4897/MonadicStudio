@@ -1,0 +1,6 @@
+{
+  "projectPath": "./src/TuoProgetto/TuoProgetto.csproj",
+  "outputDirectory": "./src/TuoProgetto/Pipelines",
+  "rootNamespace": "TuoProgetto.Pipelines",
+  "outputFileName": "GeneratedPipeline.cs"
+}
