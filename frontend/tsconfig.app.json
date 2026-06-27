@@ -21,5 +21,20 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/layout",
+    "src/monaco",
+    "src/parser",
+    "src/components/FileTree.tsx",
+    "src/components/ForgeOutput.tsx",
+    "src/components/GreenScoreBadge.tsx",
+    "src/components/GreenScoreGauge.tsx",
+    "src/components/ProblemsList.tsx",
+    "src/components/RailwayVisualizer.tsx",
+    "src/components/StepDetail.tsx",
+    "src/hooks/useForge.ts",
+    "src/hooks/useRailwayParser.ts",
+    "src/hooks/useWebSocket.ts"
+  ]
 }

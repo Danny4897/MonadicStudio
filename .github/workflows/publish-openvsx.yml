@@ -35,5 +35,6 @@ jobs:
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         run: |
-          VSIX=$(ls extension/*.vsix | head -1)
+          VSIX=$(ls extension/monadic-studio-*.vsix | sort -V | tail -1)
+          echo "Publishing $VSIX"
           npx ovsx publish "$VSIX" -p "$OVSX_PAT"
