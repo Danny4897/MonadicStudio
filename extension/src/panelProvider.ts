@@ -29,26 +29,35 @@ export class MonadicStudioPanelProvider implements vscode.WebviewViewProvider {
     webview.onDidReceiveMessage(async (message: { type: string }) => {
       if (message.type === 'ready') {
         const workspaceRoot = getWorkspaceRoot(vscode)
-        if (workspaceRoot) {
-          try {
+        try {
+          await this.backend.ensureRunning()
+          if (workspaceRoot) {
             await this.backend.bootstrapWorkspace(workspaceRoot)
             webview.postMessage({
               type: 'init',
               mode: 'vscode',
               workspaceRoot,
               linked: true,
+              engineOnline: true,
             })
-          } catch (err) {
+          } else {
             webview.postMessage({
               type: 'init',
               mode: 'vscode',
-              workspaceRoot,
               linked: false,
-              error: err instanceof Error ? err.message : 'Bootstrap failed',
+              engineOnline: true,
+              error: 'Nessun workspace aperto',
             })
           }
-        } else {
-          webview.postMessage({ type: 'init', mode: 'vscode', linked: false, error: 'Nessun workspace aperto' })
+        } catch (err) {
+          webview.postMessage({
+            type: 'init',
+            mode: 'vscode',
+            workspaceRoot,
+            linked: false,
+            engineOnline: false,
+            error: err instanceof Error ? err.message : 'Engine offline',
+          })
         }
       }
     })

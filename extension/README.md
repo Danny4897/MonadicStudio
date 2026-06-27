@@ -18,7 +18,7 @@ Visual pipeline editor for **Railway-Oriented Programming** in C# with [MonadicS
 
 Search **MonadicStudio** in the Extensions panel (Open VSX registry).
 
-**Requirements:** [.NET 8 SDK](https://dotnet.microsoft.com/download) on PATH (extension spawns the backend automatically).
+**Requirements:** [.NET 8 Runtime](https://dotnet.microsoft.com/download) (o SDK) su PATH — l’estensione avvia l’engine automaticamente al primo utilizzo.
 
 ## Quick start (extension)
 

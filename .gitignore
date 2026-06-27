@@ -5,7 +5,7 @@ node_modules/
 # Build outputs
 frontend/dist/
 extension/dist/
-extension/media/webview/
+extension/backend/
 backend/bin/
 backend/obj/
 **/*.vsix

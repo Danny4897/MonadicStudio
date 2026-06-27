@@ -63,6 +63,12 @@ Cursor cerca le estensioni su [Open VSX](https://open-vsx.org). Dopo la pubblica
 
 Guida completa: [docs/PUBLISHING.md](../PUBLISHING.md)
 
+### Icona nella Activity Bar
+
+L'estensione aggiunge un'icona dedicata nella barra laterale (o in alto in Cursor), **subito dopo le icone built-in** (Explorer, Search, SCM, Extensions). VS Code/Cursor non permette di inserirla *tra* icone native — le estensioni compaiono sempre dopo.
+
+Se non vedi l'icona: **Reload Window** dopo l'aggiornamento. L'icona è un grafo pipeline (3 nodi collegati) in stile monocromatico.
+
 ## Modalità standalone vs extension
 
 | | Standalone (`npm run dev`) | Extension |
@@ -74,5 +80,6 @@ Guida completa: [docs/PUBLISHING.md](../PUBLISHING.md)
 ## Troubleshooting
 
 - **Webview vuota / messaggio build**: esegui `npm run build:extension`
-- **Engine offline**: verifica che `dotnet` sia nel PATH; controlla che la porta 5000 sia libera
-- **Demo data nell'explorer**: bootstrap fallito — usa **Refresh Solution Tree** o aggiungi `monadicstudio.json` nella root del progetto (vedi `templates/monadicstudio.json`)
+- **Engine offline**: serve **.NET 8 Runtime** (`dotnet --version`). Log in **Output → MonadicStudio**. Porta **5000** libera.
+- **Failed to fetch** nell'explorer: engine non avviato — aggiorna alla v0.1.5+ (include engine nel pacchetto)
+- **Demo data nell'explorer**: bootstrap fallito — usa **Refresh Solution Tree** o aggiungi `monadicstudio.json` (vedi `templates/monadicstudio.json`)

@@ -3,6 +3,7 @@ export type HostConfig = {
   apiBase: string
   workspaceRoot?: string
   linked?: boolean
+  engineOnline?: boolean
   error?: string
 }
 
@@ -54,6 +55,7 @@ if (typeof window !== 'undefined') {
       apiBase: 'http://127.0.0.1:5000/api',
       workspaceRoot: data.workspaceRoot,
       linked: data.linked,
+      engineOnline: data.engineOnline,
       error: data.error,
     }
     notifyInit()

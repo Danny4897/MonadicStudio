@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { BackendManager } from './backendManager'
+import { log, getOutputChannel } from './log'
 import { MonadicStudioPanelProvider, openPanel } from './panelProvider'
 
 let backend: BackendManager | undefined
@@ -7,13 +8,24 @@ let backend: BackendManager | undefined
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   backend = new BackendManager(context.extensionPath)
   context.subscriptions.push({ dispose: () => backend?.dispose() })
+  context.subscriptions.push(getOutputChannel())
 
-  try {
-    await backend.ensureRunning()
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Errore backend'
-    void vscode.window.showErrorMessage(`MonadicStudio: ${message}`)
+  const startEngine = async (reason: string) => {
+    try {
+      log(`Avvio richiesto (${reason})`)
+      await backend!.ensureRunning()
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Errore engine'
+      log(`ERRORE: ${message}`)
+      void vscode.window.showErrorMessage(`MonadicStudio: ${message}`, 'Apri log').then((choice) => {
+        if (choice === 'Apri log') {
+          getOutputChannel().show()
+        }
+      })
+    }
   }
+
+  void startEngine('activate')
 
   const provider = new MonadicStudioPanelProvider(context.extensionUri, backend)
   context.subscriptions.push(
@@ -44,8 +56,16 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   )
 
   if (vscode.workspace.workspaceFolders?.length) {
-    void backend.ensureRunning().catch(() => undefined)
+    void startEngine('workspace')
   }
+
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeWorkspaceFolders(() => {
+      if (vscode.workspace.workspaceFolders?.length) {
+        void startEngine('workspace-change')
+      }
+    }),
+  )
 }
 
 export function deactivate(): void {

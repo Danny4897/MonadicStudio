@@ -27,7 +27,7 @@ import { useDebouncedEffect } from './hooks/useDebouncedEffect'
 import { ExistingMethodNode } from './nodes/ExistingMethodNode'
 import { MetaCreationNode } from './nodes/MetaCreationNode'
 import { getApiBase } from './api/client'
-import { isVsCodeHost, waitForHostBootstrap } from './host/vscode'
+import { getHostConfig, isVsCodeHost, waitForHostBootstrap } from './host/vscode'
 import type { CSharpVersion, GenerateResponse, ParadigmStyle } from './types'
 import { DRAG_MIME } from './types/solution'
 import { createMethodNode, createMetaNode, parseDragPayload } from './utils/createNode'
@@ -55,13 +55,19 @@ function StudioCanvas() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isDeploying, setIsDeploying] = useState(false)
   const [deployMessage, setDeployMessage] = useState<string | null>(null)
-  const [backendOnline, setBackendOnline] = useState(false)
   const [hostReady, setHostReady] = useState(!isVsCodeHost())
+  const [backendOnline, setBackendOnline] = useState(false)
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isVsCodeHost()) return
-    void waitForHostBootstrap().then(() => setHostReady(true))
+    void waitForHostBootstrap().then(() => {
+      setHostReady(true)
+      const cfg = getHostConfig()
+      if (cfg.engineOnline !== undefined) {
+        setBackendOnline(cfg.engineOnline)
+      }
+    })
   }, [])
 
   useEffect(() => {

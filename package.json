@@ -3,8 +3,9 @@
   "private": true,
   "scripts": {
     "build:frontend": "npm run build --prefix frontend",
+    "publish:backend": "node scripts/publish-backend.mjs",
     "copy:webview": "node scripts/copy-webview.mjs",
-    "build:extension": "npm run build:frontend && npm run copy:webview && npm run compile --prefix extension",
+    "build:extension": "npm run publish:backend && npm run build:frontend && npm run copy:webview && npm run compile --prefix extension",
     "pack:extension": "npm run build:extension && npm run package --prefix extension",
     "publish:openvsx": "powershell -ExecutionPolicy Bypass -File scripts/publish-openvsx.ps1",
     "dev:frontend": "npm run dev --prefix frontend",
