@@ -1,14 +1,18 @@
 import * as vscode from 'vscode'
 import { BackendManager } from './backendManager'
+import { EditorPanelManager } from './editorPanel'
 import { log, getOutputChannel } from './log'
-import { MonadicStudioPanelProvider, openPanel } from './panelProvider'
 
 let backend: BackendManager | undefined
+let editorPanel: EditorPanelManager | undefined
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   backend = new BackendManager(context.extensionPath)
   context.subscriptions.push({ dispose: () => backend?.dispose() })
   context.subscriptions.push(getOutputChannel())
+
+  editorPanel = new EditorPanelManager(context.extensionUri, backend)
+  editorPanel.registerSerializer(context)
 
   const startEngine = async (reason: string) => {
     try {
@@ -25,20 +29,15 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     }
   }
 
+  const openInEditor = async () => {
+    await startEngine('open')
+    await editorPanel!.open(vscode.ViewColumn.Active)
+  }
+
   void startEngine('activate')
 
-  const provider = new MonadicStudioPanelProvider(context.extensionUri, backend)
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(MonadicStudioPanelProvider.viewType, provider, {
-      webviewOptions: { retainContextWhenHidden: true },
-    }),
-  )
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand('monadicstudio.open', async () => {
-      await backend!.ensureRunning()
-      await openPanel(context.extensionUri, backend!)
-    }),
+    vscode.commands.registerCommand('monadicstudio.open', () => void openInEditor()),
   )
 
   context.subscriptions.push(
@@ -48,10 +47,28 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         void vscode.window.showWarningMessage('Apri una cartella workspace prima.')
         return
       }
-      await backend!.ensureRunning()
+      await startEngine('refresh')
       await backend!.bootstrapWorkspace(root)
       void vscode.window.showInformationMessage('MonadicStudio: solution ricollegata.')
-      await vscode.commands.executeCommand('monadicstudio.canvas.focus')
+      await editorPanel!.open()
+    }),
+  )
+
+  const launcherProvider: vscode.TreeDataProvider<vscode.TreeItem> = {
+    getTreeItem: () => new vscode.TreeItem(''),
+    getChildren: () => [],
+  }
+
+  const treeView = vscode.window.createTreeView('monadicstudio.launcher', {
+    treeDataProvider: launcherProvider,
+    showCollapseAll: false,
+  })
+
+  context.subscriptions.push(
+    treeView.onDidChangeVisibility((e) => {
+      if (e.visible) {
+        void openInEditor()
+      }
     }),
   )
 
@@ -71,4 +88,5 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 export function deactivate(): void {
   backend?.dispose()
   backend = undefined
+  editorPanel = undefined
 }

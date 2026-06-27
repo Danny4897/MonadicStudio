@@ -35,7 +35,7 @@ Il backend parte automaticamente su `http://127.0.0.1:5000`.
 
 | Comando | Azione |
 |---------|--------|
-| `MonadicStudio: Open Pipeline Builder` | Focus sulla webview |
+| `MonadicStudio: Open Pipeline Builder` | Apre il canvas come **tab nell'editor** |
 | `MonadicStudio: Refresh Solution Tree` | Ricollega workspace e ricarica l'albero |
 
 ## Flusso workspace
@@ -65,9 +65,9 @@ Guida completa: [docs/PUBLISHING.md](../PUBLISHING.md)
 
 ### Icona nella Activity Bar
 
-L'estensione aggiunge un'icona dedicata nella barra laterale (o in alto in Cursor), **subito dopo le icone built-in** (Explorer, Search, SCM, Extensions). VS Code/Cursor non permette di inserirla *tra* icone native — le estensioni compaiono sempre dopo.
+Clic sull'icona pipeline → apre **MonadicStudio come tab nell'editor centrale** (non più nella sidebar).
 
-Se non vedi l'icona: **Reload Window** dopo l'aggiornamento. L'icona è un grafo pipeline (3 nodi collegati) in stile monocromatico.
+Comando alternativo: `MonadicStudio: Open Pipeline Builder` (`Ctrl+Shift+P`).
 
 ## Modalità standalone vs extension
 
