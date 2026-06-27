@@ -65,9 +65,9 @@ Guida completa: [docs/PUBLISHING.md](../PUBLISHING.md)
 
 ### Icona nella Activity Bar
 
-Clic sull'icona pipeline → apre **MonadicStudio come tab nell'editor centrale** (non più nella sidebar).
+Clic sull'icona pipeline → apre **MonadicStudio come tab nell'editor centrale**.
 
-Comando alternativo: `MonadicStudio: Open Pipeline Builder` (`Ctrl+Shift+P`).
+**Scorciatoie:** `Ctrl+Shift+M` · status bar in basso a sinistra · `MonadicStudio: Open Pipeline Builder`
 
 ## Modalità standalone vs extension
 
@@ -82,5 +82,9 @@ Comando alternativo: `MonadicStudio: Open Pipeline Builder` (`Ctrl+Shift+P`).
 - **Webview vuota / messaggio build**: esegui `npm run build:extension`
 - **Engine offline**: serve **.NET 8 Runtime** (`dotnet --version`). Log in **Output → MonadicStudio**. Porta **5000** libera.
 - **Failed to fetch** nell'explorer: engine non avviato — aggiorna alla v0.1.7+
-- **No view is registered / PIPELINE BUILDER in sidebar**: disinstalla versioni vecchie, reinstalla, Reload Window
+- **Versione vecchia in Cursor (Open VSX già aggiornato)**: Cursor non aggiorna sempre in automatico. Da terminale:
+  ```powershell
+  cursor --install-extension monadicleaf.monadic-studio --force
+  ```
+  Poi `Developer: Reload Window`. Oppure disinstalla e reinstalla dal pannello Extensions.
 - **Demo data nell'explorer**: bootstrap fallito — usa **Refresh Solution Tree** o aggiungi `monadicstudio.json` (vedi `templates/monadicstudio.json`)

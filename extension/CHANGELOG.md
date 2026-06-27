@@ -1,5 +1,10 @@
 # Changelog — MonadicStudio Extension
 
+## 0.1.7.1
+- Fix icona activity bar (SVG fill-only, niente quadrato viola)
+- Scorciatoia **Ctrl+Shift+M** + status bar evidenziata
+- Tip avvio al primo utilizzo
+
 ## 0.1.7
 - Fix: niente sidebar — click icona apre tab editor e chiude sidebar
 - Status bar shortcut + messaggio se versione vecchia installata

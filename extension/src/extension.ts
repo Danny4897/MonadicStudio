@@ -62,12 +62,27 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   registerLauncherView(context, () => void openInEditor())
 
-  const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50)
+  const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 200)
   statusBar.text = '$(type-hierarchy) MonadicStudio'
-  statusBar.tooltip = 'Apri Pipeline Builder nell\'editor'
+  statusBar.tooltip = 'Apri Pipeline Builder (Ctrl+Shift+M)'
   statusBar.command = 'monadicstudio.open'
+  statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.prominentBackground')
   statusBar.show()
   context.subscriptions.push(statusBar)
+
+  if (!context.globalState.get<boolean>('monadicstudio.tipShown')) {
+    void context.globalState.update('monadicstudio.tipShown', true)
+    void vscode.window
+      .showInformationMessage(
+        'MonadicStudio pronto. Apri con Ctrl+Shift+M o dalla status bar in basso.',
+        'Apri ora',
+      )
+      .then((choice) => {
+        if (choice === 'Apri ora') {
+          void openInEditor()
+        }
+      })
+  }
 
   if (vscode.workspace.workspaceFolders?.length) {
     void startEngine('workspace')
