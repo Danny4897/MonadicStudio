@@ -84,7 +84,7 @@ Clic sull'icona pipeline → apre **MonadicStudio come tab nell'editor centrale*
 - **Failed to fetch** nell'explorer: engine non avviato — aggiorna alla v0.1.7+
 - **Versione vecchia in Cursor (Open VSX già aggiornato)**: Cursor non aggiorna sempre in automatico. Da terminale:
   ```powershell
-  cursor --install-extension monadicleaf.monadic-studio --force
+  cursor --install-extension Danny4897.monadic-studio --force
   ```
   Poi `Developer: Reload Window`. Oppure disinstalla e reinstalla dal pannello Extensions.
 - **Demo data nell'explorer**: bootstrap fallito — usa **Refresh Solution Tree** o aggiungi `monadicstudio.json` (vedi `templates/monadicstudio.json`)

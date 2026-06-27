@@ -4,6 +4,26 @@ import * as vscode from 'vscode'
 import type { BackendManager } from './backendManager'
 import { getWorkspaceRoot } from './backendManager'
 
+type ExtensionMeta = {
+  version: string
+  publisher: string
+  author: string
+}
+
+function readExtensionMeta(extensionUri: vscode.Uri): ExtensionMeta {
+  const pkgPath = path.join(extensionUri.fsPath, 'package.json')
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8')) as {
+    version?: string
+    publisher?: string
+    author?: { name?: string }
+  }
+  return {
+    version: pkg.version ?? '0.0.0',
+    publisher: pkg.publisher ?? 'unknown',
+    author: pkg.author?.name ?? pkg.publisher ?? 'unknown',
+  }
+}
+
 export function buildWebviewHtml(webview: vscode.Webview, extensionUri: vscode.Uri): string {
   const webviewDir = path.join(extensionUri.fsPath, 'media', 'webview')
   const indexPath = path.join(webviewDir, 'index.html')
@@ -44,26 +64,37 @@ export function buildWebviewHtml(webview: vscode.Webview, extensionUri: vscode.U
   return html
 }
 
-export function wireWebviewMessages(webview: vscode.Webview, backend: BackendManager): void {
+export function wireWebviewMessages(
+  webview: vscode.Webview,
+  backend: BackendManager,
+  extensionUri: vscode.Uri,
+): void {
+  const meta = readExtensionMeta(extensionUri)
+
   webview.onDidReceiveMessage(async (message: { type: string }) => {
     if (message.type !== 'ready') return
 
     const workspaceRoot = getWorkspaceRoot(vscode)
+    const baseInit = {
+      type: 'init' as const,
+      mode: 'vscode' as const,
+      extensionVersion: meta.version,
+      publisher: meta.publisher,
+      author: meta.author,
+    }
     try {
       await backend.ensureRunning()
       if (workspaceRoot) {
         await backend.bootstrapWorkspace(workspaceRoot)
         webview.postMessage({
-          type: 'init',
-          mode: 'vscode',
+          ...baseInit,
           workspaceRoot,
           linked: true,
           engineOnline: true,
         })
       } else {
         webview.postMessage({
-          type: 'init',
-          mode: 'vscode',
+          ...baseInit,
           linked: false,
           engineOnline: true,
           error: 'Nessun workspace aperto',
@@ -71,8 +102,7 @@ export function wireWebviewMessages(webview: vscode.Webview, backend: BackendMan
       }
     } catch (err) {
       webview.postMessage({
-        type: 'init',
-        mode: 'vscode',
+        ...baseInit,
         workspaceRoot,
         linked: false,
         engineOnline: false,

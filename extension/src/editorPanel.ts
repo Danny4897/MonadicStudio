@@ -30,7 +30,7 @@ export class EditorPanelManager {
 
     this.panel.iconPath = vscode.Uri.joinPath(this.extensionUri, 'media', 'icon.png')
     this.panel.webview.html = buildWebviewHtml(this.panel.webview, this.extensionUri)
-    wireWebviewMessages(this.panel.webview, this.backend)
+    wireWebviewMessages(this.panel.webview, this.backend, this.extensionUri)
 
     this.panel.onDidDispose(() => {
       this.panel = undefined
@@ -44,7 +44,7 @@ export class EditorPanelManager {
           this.panel = panel
           panel.webview.options = getWebviewOptions(this.extensionUri)
           panel.webview.html = buildWebviewHtml(panel.webview, this.extensionUri)
-          wireWebviewMessages(panel.webview, this.backend)
+          wireWebviewMessages(panel.webview, this.backend, this.extensionUri)
           panel.onDidDispose(() => {
             this.panel = undefined
           })

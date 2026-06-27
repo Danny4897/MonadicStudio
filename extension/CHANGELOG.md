@@ -1,5 +1,9 @@
 # Changelog — MonadicStudio Extension
 
+## 0.1.9
+- Publisher **Danny4897** (ex monadicleaf) — nuovo ID `Danny4897.monadic-studio`
+- Versione e autore visibili in topbar (`v0.1.9 · Danny4897`)
+
 ## 0.1.8
 - Fix icona activity bar (SVG fill-only, niente quadrato viola)
 - Scorciatoia **Ctrl+Shift+M** + status bar evidenziata

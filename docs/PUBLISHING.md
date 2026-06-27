@@ -17,11 +17,11 @@ Cursor usa **[Open VSX Registry](https://open-vsx.org)** come marketplace per le
 1. [open-vsx.org/user-settings/tokens](https://open-vsx.org/user-settings/tokens)
 2. **Generate New Token** → copia il valore (mostrato una sola volta)
 
-### 3. Namespace `monadicleaf`
+### 3. Namespace `Danny4897`
 
 ```powershell
 $env:OVSX_PAT = "il-tuo-token"
-npx ovsx create-namespace monadicleaf -p $env:OVSX_PAT
+npx ovsx create-namespace Danny4897 -p $env:OVSX_PAT
 ```
 
 ### 4. Pubblica
@@ -33,12 +33,12 @@ npm run publish:openvsx
 
 ### 5. Verifica
 
-- Listing: [open-vsx.org/monadicleaf/monadic-studio](https://open-vsx.org/monadicleaf/monadic-studio)
+- Listing: [open-vsx.org/Danny4897/monadic-studio](https://open-vsx.org/Danny4897/monadic-studio)
 - In Cursor: Extensions → cerca **MonadicStudio**
 
 ### 6. (Consigliato) Namespace verificato
 
-Apri issue su [eclipse/openvsx](https://github.com/eclipse/openvsx/wiki/Namespace-Access) per claim del namespace `monadicleaf` collegato al repo GitHub.
+Apri issue su [eclipse/openvsx](https://github.com/eclipse/openvsx/wiki/Namespace-Access) per claim del namespace `Danny4897` collegato al repo GitHub.
 
 ---
 
@@ -70,7 +70,7 @@ Cursor riceve gli aggiornamenti da Open VSX automaticamente (può richiedere alc
 
 | Problema | Soluzione |
 |----------|-----------|
-| Extension non in Cursor | Attendi sync Open VSX; riavvia Cursor; cerca `monadicleaf.monadic-studio` |
+| Extension non in Cursor | Attendi sync Open VSX; riavvia Cursor; cerca `Danny4897.monadic-studio` |
 | `Namespace already exists` | Normale se già creato — procedi con `publish` |
 | Publisher Agreement mancante | Completa login Eclipse su open-vsx.org |
 | Secret scan rejected | Rimuovi token/credenziali dal codice |

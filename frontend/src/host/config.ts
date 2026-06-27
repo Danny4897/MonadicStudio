@@ -4,6 +4,9 @@ export type HostConfig = {
   workspaceRoot?: string
   linked?: boolean
   engineOnline?: boolean
+  extensionVersion?: string
+  publisher?: string
+  author?: string
   error?: string
 }
 
@@ -56,6 +59,9 @@ if (typeof window !== 'undefined') {
       workspaceRoot: data.workspaceRoot,
       linked: data.linked,
       engineOnline: data.engineOnline,
+      extensionVersion: data.extensionVersion,
+      publisher: data.publisher,
+      author: data.author,
       error: data.error,
     }
     notifyInit()

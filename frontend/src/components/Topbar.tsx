@@ -1,4 +1,5 @@
 import { getApiBase } from '../api/client'
+import { getHostConfig, isVsCodeHost } from '../host/vscode'
 
 type TopbarProps = {
   nodeCount: number
@@ -7,6 +8,12 @@ type TopbarProps = {
 }
 
 export function Topbar({ nodeCount, edgeCount, backendOnline }: TopbarProps) {
+  const host = isVsCodeHost() ? getHostConfig() : null
+  const meta =
+    host?.extensionVersion && host?.author
+      ? `v${host.extensionVersion} · ${host.author}`
+      : null
+
   return (
     <header className="topbar">
       <div className="topbar-logo">
@@ -26,6 +33,12 @@ export function Topbar({ nodeCount, edgeCount, backendOnline }: TopbarProps) {
       </div>
 
       <div className="topbar-spacer" />
+
+      {meta && (
+        <span className="topbar-chip topbar-meta" title={`Publisher: ${host?.publisher ?? ''}`}>
+          {meta}
+        </span>
+      )}
 
       <span className="topbar-chip" style={{ borderColor: 'var(--color-tb-border)', background: 'var(--color-tb-elevated)', color: 'var(--color-tb-secondary)' }}>
         {nodeCount} nodi · {edgeCount} edge

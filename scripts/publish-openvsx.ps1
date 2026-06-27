@@ -26,7 +26,7 @@ Write-Host '>> Build VSIX...'
 npm run pack:extension
 
 Write-Host '>> Create namespace (ignora errore se esiste)...'
-npx ovsx create-namespace monadicleaf -p $Pat 2>$null
+npx ovsx create-namespace Danny4897 -p $Pat 2>$null
 
 $vsix = Get-ChildItem extension\*.vsix | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 if (-not $vsix) { throw 'VSIX non trovato in extension/' }
@@ -36,5 +36,5 @@ npx ovsx publish $vsix.FullName -p $Pat
 
 Write-Host ''
 Write-Host 'Pubblicato su Open VSX. Verifica:'
-Write-Host '  https://open-vsx.org/monadicleaf/monadic-studio'
+Write-Host '  https://open-vsx.org/Danny4897/monadic-studio'
 Write-Host 'In Cursor: Extensions -> cerca MonadicStudio'

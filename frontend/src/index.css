@@ -144,6 +144,13 @@ body,
   box-shadow: 0 0 8px var(--color-tb-accent);
 }
 
+.topbar-meta {
+  font-size: 0.7rem;
+  color: var(--color-tb-muted);
+  border-color: transparent;
+  background: transparent;
+}
+
 .topbar-spacer {
   flex: 1;
 }
